@@ -20,8 +20,9 @@ export const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const auth = useAuth()
+  const accessToken = localStorage.getItem('feathers-jwt')
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
-    auth.authenticate({ strategy: 'jwt' })
+    auth.authenticate({ strategy: 'jwt', accessToken })
       .then(() => {
         next()
       }).catch((err: any) => {
